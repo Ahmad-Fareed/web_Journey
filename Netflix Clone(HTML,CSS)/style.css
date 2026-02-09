@@ -1,0 +1,101 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.main {
+    background-image: url("Images/bg1.jpg");
+    background-position: centre centre;
+    background-repeat: no-repeat;
+    background-size: max(1200px, 100vw);
+    height: 80vh;
+    position: relative;
+}
+
+body {
+    background-color: black;
+}
+
+.box {
+    height: 80vh;
+    width: 100%;
+    opacity: 0.44;
+    background-color: black;
+    position: absolute;
+    top: 0;
+}
+
+nav {
+    display: flex;
+    max-width: 80vw;
+    margin: auto;
+    padding: auto;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+nav .img {
+    position: relative;
+    z-index: 10;
+    margin-top: 100px;
+
+
+}
+
+nav .button {
+    position: relative;
+    z-index: 10;
+    color: red;
+}
+
+.hero {
+    color: white;
+    font-size: larger;
+    font-style: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 44.54px);
+    flex-direction: column;
+    position: relative;
+    gap: 20px;
+ 
+}
+
+.hero> :first-child {
+    font-size: 50px;
+}
+
+.hero input {
+    height: 40px;
+    width: 50%;
+    border-radius: 2px;
+    border: 1px;
+    background: rgb(0,0,0,0.6);
+    color: white;
+}
+.hero input::placeholder{
+color: aliceblue;
+opacity: 1;
+}
+.hero button{
+     height: 100%;
+     width: 48%;
+     border-radius: 2px;
+    border: 1px;
+    background-color: red;
+   color: aliceblue;
+}
+
+.data{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+   
+}
+.separation{
+    height: 10px;
+    width: 100%;
+    background-color: grey;
+}
