@@ -6,30 +6,62 @@ const additionalStats = document.querySelector('.additional-stats');
 
 async function fetchLeetCodeData(username) {
     try {
-        searchBtn.textContent = 'Loading...';
+        searchBtn.textContent = 'Searching...';
         searchBtn.disabled = true;
 
-        // Fetch from local Node.js backend
-        const response = await fetch('http://localhost:3000/api/leetcode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username: username })
+        // CORS proxy and target URL
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const targetUrl = 'https://leetcode.com/graphql/';
+
+        // Create headers
+        const myHeaders = new Headers();
+        myHeaders.append('content-type', 'application/json');
+
+        // GraphQL query
+        const graphql = JSON.stringify({
+            query: `
+                query userSessionProgress($username: String!) {
+                    allQuestionsCount {
+                        difficulty
+                        count
+                    }
+                    matchedUser(username: $username) {
+                        submitStats {
+                            acSubmissionNum {
+                                difficulty
+                                count
+                                submissions
+                            }
+                            totalSubmissionNum {
+                                difficulty
+                                count
+                                submissions
+                            }
+                        }
+                    }
+                }
+            `,
+            variables: { username: `${username}` }
         });
 
+        // Request options
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: graphql
+        };
+
+        // Fetch data
+        const response = await fetch(proxyUrl + targetUrl, requestOptions);
+        
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error('Unable to fetch user details');
         }
 
-        const result = await response.json();
+        const parsedData = await response.json();
+        console.log('Fetched data:', parsedData);
 
-        if (result.error) {
-            throw new Error(result.error);
-        }
-
-        console.log('Fetched data:', result);
-        return result;
+        return parsedData;
 
     } catch (error) {
         console.error('Error fetching LeetCode data:', error);
