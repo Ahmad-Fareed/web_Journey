@@ -25,7 +25,7 @@ body {
     top: 0;
 }
 
-nav {
+.nav {
     display: flex;
     max-width: 80vw;
     margin: auto;
@@ -33,9 +33,10 @@ nav {
     align-items: center;
     justify-content: space-between;
     position: relative;
+   z-index: 2;
 }
 
-nav .img {
+.nav .img {
     position: relative;
     z-index: 10;
     margin-top: 100px;
@@ -43,11 +44,7 @@ nav .img {
 
 }
 
-nav .button {
-    position: relative;
-    z-index: 10;
-    color: red;
-}
+
 
 .hero {
     color: white;
@@ -81,21 +78,36 @@ opacity: 1;
 }
 .hero button{
      height: 100%;
-     width: 48%;
+     width: 30%;
      border-radius: 2px;
     border: 1px;
     background-color: red;
    color: aliceblue;
+   margin-right: 120px;
+   font-weight: 100;
+   font-style: bold;
 }
 
 .data{
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
-   
+   margin-left: 90px;
 }
 .separation{
-    height: 10px;
+    height: 5px;
     width: 100%;
-    background-color: grey;
+    background-color: rgb(53, 53, 53);
+}
+
+.lang{
+    color: white;
+    font-weight: 300;
+    padding: 3px;
+ background-color: rgb(53, 53, 53);
+ position: relative;
+ opacity: 0.9;
+ border: 1px;
+ border-radius: 5%;
+   
 }

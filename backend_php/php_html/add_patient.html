@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <lable id="name">Name</lable>
+        <input type="text" name="name" id="name"><br><br>
+        <lable id="age">age</lable>
+        <input type="text" name="age" id="age"><br><br>
+        <lable id="disease">Disease</lable>
+        <input type="text" name="name" id="disease"><br><br>
+        <select id="staus">
+            <option>Select Status</option>
+            <option>Admitted</option>
+            <option>Discharged</option>
+
+        </select>
+
+        <button onclick="save()">Save</button>
+        <script>
+            function save(){
+                let nameValue=getelementByID('name').value;
+                let ageValue=getElementByID('age').value;
+                let diseaseValue=getElementByID('disease').value;
+                let statusValue=getElementByID('status').value;
+
+                let dataTosend=new FormData();
+
+                dataTosend.append('name',nameValue);
+                dataTosend.append('age',ageValue);
+                dataTosend.append('disease',diseaseValue);
+                dataTosend.append('status',statusValue);
+                 
+                fetch('add_product.php',{
+                    method:POST,
+                    body:dataToSend
+                })
+                .then(response=>response.text())
+                .then(data=>getElmentByID('message').innerhtml=data)
+                
+                
+            }
+        </script>
+
+
+    </form>
+</body>
+</html>
