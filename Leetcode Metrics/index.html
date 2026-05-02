@@ -3,52 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LeetMetric - LeetCode Statistics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <!-- Header Section -->
         <div class="header">
-            <h1>LeetMetric</h1>
-        </div>
-
-        <!-- User Input Section -->
-        <div class="user-container">
-            <p>Enter your username below:</p>
-            <div class="user-input-container">
-                <input type="text" placeholder="Enter your username here" id="user-input">
-                <button id="search-btn">Search</button>
+            <div class="header-content">
+                <h1><i class="fas fa-chart-pie"></i> LeetMetric</h1>
+                <p>Your LeetCode Performance Dashboard</p>
             </div>
         </div>
 
-        <!-- Stats Section -->
-        <div class="stats-container">
-            <!-- Progress/Percentage Indicators -->
-            <div class="progress">
-                <!-- Circular progress indicators -->
-                <div class="circle-progress" id="progress-1">Easy</div>
-                <div class="circle-progress" id="progress-2">Medium</div>
-                <div class="circle-progress" id="progress-3">Hard</div>
-            </div>
-
-            <!-- Stats Cards Section -->
-            <div class="stats-cards">
-                <div class="stats-card" id="card-1">
-                    <!-- Stats will be populated by JS -->
-                </div>
-                <div class="stats-card" id="card-2">
-                    <!-- Stats will be populated by JS -->
-                </div>
-                <div class="stats-card" id="card-3">
-                    <!-- Stats will be populated by JS -->
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- User Input Section -->
+            <div class="user-container">
+                <h2>Enter Your LeetCode Username</h2>
+                <div class="user-input-container">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Enter your username here" id="user-input">
+                    <button id="search-btn"><i class="fas fa-search"></i> Search</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Additional Container -->
-        <div class="div-container">
-            <!-- Additional layout container -->
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <!-- Progress Section - Column Layout -->
+                <div class="progress-section">
+                    <h3>Problem-Solving Progress</h3>
+                    <div class="progress">
+                        <!-- Easy Progress -->
+                        <div class="circle-progress easy" id="progress-1" data-level="easy">
+                            <div class="circle-wrapper">
+                                <svg class="progress-ring" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-background"></circle>
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-circle" style="stroke-dasharray: 339.29, 339.29; stroke-dashoffset: 0;"></circle>
+                                </svg>
+                                <div class="circle-content">
+                                    <span class="circle-label">Easy</span>
+                                    <span class="circle-percentage">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medium Progress -->
+                        <div class="circle-progress medium" id="progress-2" data-level="medium">
+                            <div class="circle-wrapper">
+                                <svg class="progress-ring" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-background"></circle>
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-circle" style="stroke-dasharray: 339.29, 339.29; stroke-dashoffset: 0;"></circle>
+                                </svg>
+                                <div class="circle-content">
+                                    <span class="circle-label">Medium</span>
+                                    <span class="circle-percentage">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hard Progress -->
+                        <div class="circle-progress hard" id="progress-3" data-level="hard">
+                            <div class="circle-wrapper">
+                                <svg class="progress-ring" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-background"></circle>
+                                    <circle cx="60" cy="60" r="54" class="progress-ring-circle" style="stroke-dasharray: 339.29, 339.29; stroke-dashoffset: 0;"></circle>
+                                </svg>
+                                <div class="circle-content">
+                                    <span class="circle-label">Hard</span>
+                                    <span class="circle-percentage">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Section -->
+                <div class="stats-cards">
+                    <div class="stats-card" id="card-1">
+                        <div class="card-icon"><i class="fas fa-code"></i></div>
+                        <h4>Total Solved</h4>
+                        <p class="card-value">0</p>
+                        <p class="card-subtitle">Problems</p>
+                    </div>
+                    <div class="stats-card" id="card-2">
+                        <div class="card-icon"><i class="fas fa-percent"></i></div>
+                        <h4>Acceptance Rate</h4>
+                        <p class="card-value">0%</p>
+                        <p class="card-subtitle">Average</p>
+                    </div>
+                    <div class="stats-card" id="card-3">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>Solve Rate</h4>
+                        <p class="card-value">0%</p>
+                        <p class="card-subtitle">Completion</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Stats Grid -->
+            <div class="additional-stats">
+                <div class="stat-item">
+                    <h5>Ranking</h5>
+                    <p id="ranking">--</p>
+                </div>
+                <div class="stat-item">
+                    <h5>Contribution Points</h5>
+                    <p id="contribution">--</p>
+                </div>
+                <div class="stat-item">
+                    <h5>Reputation</h5>
+                    <p id="reputation">--</p>
+                </div>
+                <div class="stat-item">
+                    <h5>Company Tags</h5>
+                    <p id="company-tags">--</p>
+                </div>
+            </div>
         </div>
     </div>
     
