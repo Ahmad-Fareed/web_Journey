@@ -3,7 +3,7 @@ let resetBtn=document.querySelector("#reset-btn");
 let newBtn=document.querySelector("#new-btn");
 let msg=document.querySelector(".msg");
 let message=document.querySelector("#message");
-
+let count=0;
 let turn0=true;
 const winPatrn=[
     [0,1,2],
@@ -24,6 +24,7 @@ const resetGame=()=>{
     boxes.forEach((box)=>{
         box.addEventListener("click",()=>{
             console.log("box clicked");
+            count++;
             if(turn0){
                 box.innerHTML="X";
                 turn0=false;
@@ -34,9 +35,18 @@ const resetGame=()=>{
             }
             box.disabled=true;
             checkWin();
+            checkDraw();
         });
     });
 
+    const checkDraw=()=>{
+        if(count==9){
+            message.innerHTML=`Game Draw`;
+            msg.classList.remove("hide");
+        }
+
+    }
+    
     const disableBoxes=()=>{
         boxes.forEach((box)=>{
             box.disabled=true;
@@ -71,4 +81,4 @@ const resetGame=()=>{
         }
     }
 resetBtn.addEventListener("click",resetGame);
-newBtn.addEventListener("click",resetGame);
+newBtn.addEventListener("click",resetGame); 
