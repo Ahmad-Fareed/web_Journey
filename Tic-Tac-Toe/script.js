@@ -15,6 +15,12 @@ const winPatrn=[
     [3,4,5],
     [6,7,8]];
 
+const resetGame=()=>{
+    enableBoxes();
+    turn0=true;
+    msg.classList.add("hide");
+}
+
     boxes.forEach((box)=>{
         box.addEventListener("click",()=>{
             console.log("box clicked");
@@ -31,9 +37,25 @@ const winPatrn=[
         });
     });
 
+    const disableBoxes=()=>{
+        boxes.forEach((box)=>{
+            box.disabled=true;
+        });
+
+    }
+
+    const enableBoxes=()=>{
+        boxes.forEach((box)=>{
+            box.disabled=false;
+            box.innerHTML="";
+        });
+
+    }
+
     function showMsg(winner){
         message.innerHTML=`${winner} wins the game`;
         msg.classList.remove("hide");
+        disableBoxes();
     }
     function checkWin(){
         for(let pattern of winPatrn){
@@ -48,3 +70,5 @@ const winPatrn=[
             }
         }
     }
+resetBtn.addEventListener("click",resetGame);
+newBtn.addEventListener("click",resetGame);
