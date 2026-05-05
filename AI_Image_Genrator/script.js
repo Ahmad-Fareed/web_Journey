@@ -1,8 +1,10 @@
-// Theme Toggle Functionality
+// ===========================
+// Theme Toggle
+// ===========================
 const themeToggle = document.getElementById('themeToggle');
 const body = document.body;
 
-// Check for saved theme preference or default to light mode
+// Apply saved theme preference (defaults to light)
 const currentTheme = localStorage.getItem('theme') || 'light';
 if (currentTheme === 'dark') {
     body.classList.add('dark-mode');
@@ -16,74 +18,80 @@ themeToggle.addEventListener('click', () => {
     const isDarkMode = body.classList.contains('dark-mode');
     themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
 
-    // Save theme preference to localStorage
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
-// --- API Configuration ---
-// Important: Replace this with your actual Hugging Face API key
-const HF_API_KEY = "PASTE_YOUR_HF_API_KEY_HERE";//copy it from huggingface.co/settings/tokens
+// ===========================
+// API Configuration
+// ===========================
+// Get your free API key from: https://huggingface.co/settings/tokens
+const HF_API_KEY = "PASTE_YOUR_HF_API_KEY_HERE";
+const HF_API_BASE = "https://router.huggingface.co/hf-inference/models";
 
-// --- DOM Elements ---
-const generatorForm = document.querySelector('.generator-form');
-const promptInput = document.querySelector('.prompt-input');
-const customSelects = document.querySelectorAll('.custom-select');
-// Mapping the selects based on their order in the HTML
-const modelSelect = customSelects[0];
-const countSelect = customSelects[1];
-const ratioSelect = customSelects[2];
+// ===========================
+// DOM Elements
+// ===========================
+const generatorForm = document.getElementById('generatorForm');
+const promptInput = document.getElementById('promptInput');
+const modelSelect = document.getElementById('modelSelect');
+const countSelect = document.getElementById('countSelect');
+const ratioSelect = document.getElementById('ratioSelect');
 const gallery = document.getElementById('gallery');
-const generateBtn = document.querySelector('.generate-btn');
+const generateBtn = document.getElementById('generateBtn');
 
+// ===========================
+// API Call — Generate a Single Image
+// ===========================
 /**
- * 2. API Call Function
- * This function calls the Hugging Face API to generate an image.
+ * Sends a text prompt to the Hugging Face Inference API
+ * and returns a local object URL pointing to the generated image.
+ *
+ * @param {string} prompt - The text description of the image to generate.
+ * @param {string} model  - The Hugging Face model ID (e.g. "black-forest-labs/FLUX.1-schnell").
+ * @returns {Promise<string>} A blob object URL that can be used as an <img> src.
  */
 async function generateImage(prompt, model) {
-    const randomSeed = Math.floor(Math.random() * 1000000); // Helps generate different images for the same prompt
+    const randomSeed = Math.floor(Math.random() * 1000000);
 
-    try {
-        // Hugging Face's new Inference API endpoint (the old api-inference.huggingface.co was deprecated)
-        const response = await fetch(`https://router.huggingface.co/hf-inference/models/${model}`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${HF_API_KEY}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                inputs: prompt,
-                parameters: { seed: randomSeed } // Send random seed for variety
-            }),
-        });
+    const response = await fetch(`${HF_API_BASE}/${model}`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${HF_API_KEY}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            inputs: prompt,
+            parameters: { seed: randomSeed },
+        }),
+    });
 
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.statusText}`);
-        }
-
-        const blob = await response.blob();
-        return URL.createObjectURL(blob); // Convert raw image blob to a local URL
-    } catch (error) {
-        console.error("Error generating image:", error);
-        throw error;
+    if (!response.ok) {
+        const errorBody = await response.text().catch(() => "");
+        throw new Error(`API Error ${response.status}: ${response.statusText}. ${errorBody}`);
     }
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
 }
 
+// ===========================
+// Form Submission Handler
+// ===========================
 /**
- * 1. Form Submission Handler
- * This function triggers when the user clicks 'Generate'.
- * It prevents the page from reloading, grabs the user's input,
- * performs validation, and prepares the UI (gallery) with loading spinners.
+ * Validates user input, shows loading spinners, fires parallel
+ * API requests for the requested image count, and renders results
+ * or an error message into the gallery.
  */
 async function handleFormSubmit(e) {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Get and trim user input values
+    // Collect input values
     const prompt = promptInput.value.trim();
     const model = modelSelect.value;
-    const count = parseInt(countSelect.value) || 1; // Default to 1 if not selected
-    const ratio = ratioSelect.value || '1/1'; // Default to Square if not selected
+    const count = parseInt(countSelect.value) || 1;
+    const ratio = ratioSelect.value || '1/1';
 
-    // Basic Validation: Ensure prompt and model are provided
+    // Validation
     if (!prompt) {
         alert("Please enter a prompt to generate images.");
         return;
@@ -93,41 +101,34 @@ async function handleFormSubmit(e) {
         return;
     }
 
-    // Clear previous results from the gallery
+    // Show loading spinners
     gallery.innerHTML = '';
-
-    // Create loading cards based on the selected image count
     for (let i = 0; i < count; i++) {
         const card = document.createElement('div');
         card.classList.add('img-card', 'loading');
-        // Add a spinner from the style.css
         card.innerHTML = `<div class="spinner"></div>`;
         gallery.appendChild(card);
     }
 
-    // Disable the generate button to prevent duplicate requests
+    // Lock the generate button
     generateBtn.disabled = true;
-    generateBtn.innerHTML = 'Generating...';
+    generateBtn.textContent = 'Generating...';
 
-    // Array to hold all our API requests
-    const imagePromises = [];
-    for (let i = 0; i < count; i++) {
-        imagePromises.push(generateImage(prompt, model));
-    }
+    // Fire all API requests in parallel
+    const imagePromises = Array.from({ length: count }, () =>
+        generateImage(prompt, model)
+    );
 
     try {
-        // Wait for ALL images to finish generating
         const imageUrls = await Promise.all(imagePromises);
 
-        // Clear out the loading spinners
+        // Replace spinners with generated images
         gallery.innerHTML = '';
-
-        // Inject the completed images into the HTML
         imageUrls.forEach((url, index) => {
             const card = document.createElement('div');
             card.classList.add('img-card');
             card.innerHTML = `
-                <img src="${url}" class="result-img" alt="Generated AI Image ${index + 1}">
+                <img src="${url}" class="result-img" alt="Generated image ${index + 1}">
                 <div class="img-overlay">
                     <a href="${url}" download="ai-generated-${Date.now()}-${index}.jpg" class="img-download-btn">
                         <i class="fa-solid fa-download"></i>
@@ -136,23 +137,23 @@ async function handleFormSubmit(e) {
             `;
             gallery.appendChild(card);
         });
-
     } catch (error) {
-        // Handle errors gracefully on the UI
+        console.error("Generation failed:", error);
         gallery.innerHTML = `
-            <div class="img-card error" style="grid-column: 1 / -1; width: 100%; aspect-ratio: auto; padding: 20px;">
+            <div class="img-card error">
                 <div class="status-container">
                     <i class="fa-solid fa-circle-exclamation"></i>
-                    <p style="font-size: 16px; margin-top: 10px;">Failed to generate images. Check API Key or try again.</p>
+                    <p>Failed to generate images. Check your API key or try again.</p>
                 </div>
             </div>
         `;
     } finally {
-        // Re-enable the button when done (or if failed)
         generateBtn.disabled = false;
-        generateBtn.innerHTML = '✨ Generate';
+        generateBtn.textContent = '✨ Generate';
     }
 }
 
-// Attach the submit event listener to the form
+// ===========================
+// Init
+// ===========================
 generatorForm.addEventListener('submit', handleFormSubmit);
