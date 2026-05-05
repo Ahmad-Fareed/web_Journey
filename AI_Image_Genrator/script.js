@@ -22,7 +22,7 @@ themeToggle.addEventListener('click', () => {
 
 // --- API Configuration ---
 // Important: Replace this with your actual Hugging Face API key
-const HF_API_KEY = "PASTE_YOUR_HF_API_KEY_HERE";
+const HF_API_KEY = "PASTE_YOUR_HF_API_KEY_HERE";//copy it from huggingface.co/settings/tokens
 
 // --- DOM Elements ---
 const generatorForm = document.querySelector('.generator-form');
