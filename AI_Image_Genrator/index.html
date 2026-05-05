@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate stunning AI images from text prompts using Hugging Face models. Free, fast, and beautiful.">
     <title>AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,20 +19,21 @@
                 <button class="theme-toggle" id="themeToggle">🌙</button>
             </div>
 
-            <form class="generator-form">
-                <!-- Input Section -->
+            <form class="generator-form" id="generatorForm">
+                <!-- Prompt Input -->
                 <div class="input-section">
                     <textarea 
                         class="prompt-input" 
+                        id="promptInput"
                         placeholder="Describe your imagination in detail..."
                         rows="4"
                     ></textarea>
                 </div>
 
-                <!-- Prompt Actions/Buttons -->
+                <!-- Model Selection -->
                 <div class="prompt-actions">
                     <div class="select-wrapper">
-                        <select class="custom-select">
+                        <select class="custom-select" id="modelSelect">
                             <option value="" selected disabled>Select Model</option>
                             <option value="black-forest-labs/FLUX.1-schnell">FLUX.1 Schnell (Fast)</option>
                             <option value="stabilityai/stable-diffusion-3-medium-diffusers">Stable Diffusion 3 Medium</option>
@@ -40,7 +43,7 @@
 
                 <!-- Image Count Selection -->
                 <div class="select-wrapper">
-                    <select class="custom-select">
+                    <select class="custom-select" id="countSelect">
                         <option value="" selected disabled>Image Count</option>
                         <option value="1">1 Image</option>
                         <option value="2">2 Images</option>
@@ -51,7 +54,7 @@
 
                 <!-- Aspect Ratio Selection -->
                 <div class="select-wrapper">
-                    <select class="custom-select">
+                    <select class="custom-select" id="ratioSelect">
                         <option value="" selected disabled>Aspect Ratio</option>
                         <option value="1/1">Square (1:1)</option>
                         <option value="16/9">Landscape (16:9)</option>
@@ -60,31 +63,16 @@
                 </div>
 
                 <!-- Generate Button -->
-                <button type="submit" class="generate-btn">✨ Generate</button>
+                <button type="submit" class="generate-btn" id="generateBtn">✨ Generate</button>
             </form>
         </div>
 
-        <!-- Results Section -->
+        <!-- Results Gallery -->
         <div class="results-section">
-            <!-- Result Gallery Grid -->
-            <div class="gallery-grid" id="gallery">
-                <!-- Image cards will be generated here -->
-                <!-- Example card structure:
-                <div class="img-card">
-                    <img src="test.png" class="result-img" />
-                    <div class="img-overlay">
-                        <button class="img-download-btn">
-                            <i class="fa-solid fa-download"></i>
-                        </button>
-                    </div>
-                </div>
-                -->
-            </div>
+            <div class="gallery-grid" id="gallery"></div>
         </div>
     </div>
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="script.js"></script>
 </body>
 </html>
