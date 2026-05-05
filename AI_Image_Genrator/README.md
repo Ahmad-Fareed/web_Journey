@@ -72,7 +72,7 @@ cd AI-Image-Generator
 Open `script.js` and replace the placeholder on line 25:
 
 ```javascript
-const HF_API_KEY = "hf_YOUR_API_KEY_HERE";
+const HF_API_KEY = "hf_YOUR_API_KEY_HERE"; // Place Your api key here from huggingface.co/settings/tokens
 ```
 
 ### 4. Run the Project
