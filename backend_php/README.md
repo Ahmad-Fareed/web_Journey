@@ -15,3 +15,9 @@
 
 This directory contains foundational backend scripts written in PHP to demonstrate core server-side functionalities. It serves as a practice ground for establishing database connections, performing CRUD (Create, Read, Update, Delete) operations, and bridging the gap between HTML frontend forms and backend logic.
 
+## 📂 Directory Structure
+
+The `backend_php` folder is organized into sub-projects representing different learning phases and use cases:
+
+- **[`crud_practice1/`](./crud_practice1)**: Contains standalone PHP scripts demonstrating the implementation of raw CRUD operations for a product management context.
+- **[`php_html/`](./php_html)**: Demonstrates the integration between HTML frontend views (e.g., `add_patient.html`) and PHP backend logic, showing how form data is submitted and processed by the server.
