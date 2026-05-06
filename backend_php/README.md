@@ -48,3 +48,19 @@ To run these PHP scripts locally, you need a local server environment with PHP a
    - Move or clone this `backend_php` folder into your server's root directory (`htdocs` for XAMPP).
 5. **Run in Browser**: 
    - Access the scripts via `http://localhost/backend_php/crud_practice1/` or `http://localhost/backend_php/php_html/`.
+
+---
+
+## 🔒 Security Best Practices & Warnings
+
+When writing backend PHP for production environments, remember these fundamental rules, some of which are intentionally omitted here for raw practice simplicity:
+
+- **SQL Injection Prevention**: Always use **Prepared Statements** (`$stmt->prepare()`) and bind parameters instead of concatenating variables directly into queries.
+- **Input Validation & Sanitization**: Always validate and sanitize user inputs before processing or storing them in the database to prevent XSS (Cross-Site Scripting).
+- **Environment Variables**: Store sensitive database credentials securely using environment variables or dedicated `.env` files outside the public directory. Do not hardcode secrets.
+- **Error Handling**: Disable verbose database error reporting in production to avoid exposing schema details to end-users. Use custom, generic error messages instead.
+
+---
+<div align="center">
+  <sub>Built for educational and practice purposes. Keep coding! 🚀</sub>
+</div>
