@@ -86,3 +86,5 @@ npm run preview
 - [React Documentation](https://react.dev)
 - [Vite Guide](https://vitejs.dev/guide/)
 - [React Hooks Guide](https://react.dev/reference/react)
+
+By Ahmad Fareed
